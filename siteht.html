@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой первый сайт</title>
+    <style>
+        /* Общие стили для тёмной темы */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212; /* Чёрный фон */
+            color: #f4f4f9; /* Белый текст */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* предотвращает горизонтальную прокрутку */
+            position: relative;
+        }
+
+        /* Падающие капли */
+        .rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .drop {
+            position: absolute;
+            width: 5px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            animation: fall 2s infinite linear;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -20px;
+                opacity: 1;
+            }
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        /* Падающие снежинки */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            font-size: 24px;
+            color: #ffffff;
+            user-select: none;
+            pointer-events: auto;
+            animation: snow-fall 10s linear infinite;
+        }
+
+        @keyframes snow-fall {
+            0% {
+                transform: translateX(0) translateY(-10px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100px) translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+
+        /* Боковое окно для техподдержки */
+        .support-sidebar {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 8px 0 0 8px;
+            display: none; /* Скрыто по умолчанию */
+            z-index: 1000;
+        }
+
+        .support-sidebar h2 {
+            color: #FF69B4;
+            margin-bottom: 15px;
+        }
+
+        .support-sidebar input,
+        .support-sidebar textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #444;
+            color: white;
+        }
+
+        .support-sidebar button {
+            background-color: #FF69B4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .support-sidebar button:hover {
+            background-color: #f5a7cc;
+        }
+
+        .open-support-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background-color: #FF69B4;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 15px;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .open-support-btn:hover {
+            background-color: #f5a7cc;
+        }
+
+        .close-support-btn {
+            background-color: transparent;
+            color: white;
+            font-size: 20px;
+            border: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+        /* Стиль для шапки */
+        header {
+            background-color: #1d1d1d; /* Темный фон шапки */
+            color: #FF69B4FF; /* Цвет текста Hotpink */
+            text-align: center;
+            padding: 8px 16px; /* Уменьшены отступы сверху и снизу */
+            transform: translateY(-20px);
+            animation: slideDown 1s ease-out forwards;
+        }
+
+        /* Логотип */
+        header img {
+            position: absolute;
+            left: 10px; /* Сдвиг логотипа слева */
+            top: 20px;  /* Сдвиг логотипа сверху */
+            max-width: 150px; /* Ограничение размера логотипа */
+            height: auto;
+        }
+
+        /* Размер текста в шапке */
+        header h1 {
+            font-size: 25px; /* Уменьшение размера заголовка */
+        }
+
+        header p {
+            font-size: 14px; /* Уменьшение размера текста */
+        }
+
+        /* Анимация для шапки */
+        @keyframes slideDown {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Навигация */
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            transform: translateY(-20px);
+            animation: slideNav 1s ease-out forwards;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: white;
+            color: black;
+        }
+
+        /* Анимация для навигации */
+        @keyframes slideNav {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Основной контент */
+        section {
+            padding: 20px;
+            margin: 20px;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(30px);
+            animation: slideUp 1s ease-out forwards;
+        }
+
+        /* Анимация для контента */
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Футер */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 3px 6px; /* Уменьшены отступы сверху и снизу */
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            transform: translateY(20px);
+            animation: slideFooter 1s ease-out forwards;
+            font-size: 9px; /* Уменьшение размера шрифта */
+        }
+
+        /* Анимация для футера */
+        @keyframes slideFooter {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Стили для снеговика */
+        .snowman {
+            position: fixed;
+            bottom: 10%;
+            right: 5%;
+            width: 100px;
+            height: 100px;
+            background-image: url('https://imgur.com/oDa0oCa.jpg'); /* Изображение снеговика */
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        /* Стили для окна с сообщением */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+            z-index: 101;
+        }
+
+        /* Изменение фона только для заголовков в "О нас", "Работы", "Услуги" */
+        #about h2, #works h2, #services h2, #contact h2 {
+            background-color: #FF69B4; /* Цвет фона HotPink */
+            padding: 10px; /* Добавим отступы для заголовка */
+            border-radius: 5px; /* Округляем углы */
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Анимация падающих капель -->
+    <div class="rain">
+        <div class="drop" style="left: 10%; animation-duration: 1.8s;"></div>
+        <div class="drop" style="left: 20%; animation-duration: 2s;"></div>
+        <div class="drop" style="left: 30%; animation-duration: 1.5s;"></div>
+        <div class="drop" style="left: 40%; animation-duration: 2.2s;"></div>
+        <div class="drop" style="left: 50%; animation-duration: 1.7s;"></div>
+        <div class="drop" style="left: 60%; animation-duration: 2.4s;"></div>
+        <div class="drop" style="left: 70%; animation-duration: 1.9s;"></div>
+        <div class="drop" style="left: 80%; animation-duration: 2.1s;"></div>
+        <div class="drop" style="left: 90%; animation-duration: 1.6s;"></div>
+    </div>
+
+    <!-- Анимация падающих снежинок -->
+    <div class="snowflakes" id="snowflakes"></div>
+
+    <!-- Боковое окно для техподдержки -->
+    <div class="support-sidebar" id="support-sidebar">
+        <button class="close-support-btn" onclick="closeSupportSidebar()">&times;</button>
+        <h2>Техподдержка</h2>
+        <form id="support-form">
+            <input type="text" id="name" placeholder="Ваше имя" required><br>
+            <input type="email" id="email" placeholder="Ваш Email" required><br>
+            <textarea id="message" placeholder="Ваш вопрос или комментарий" rows="4" required></textarea><br>
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+
+    <!-- Кнопка для открытия бокового окна техподдержки -->
+    <button class="open-support-btn" onclick="openSupportSidebar()">💬</button>
+
+    <header class="fade-in">
+        <!-- Логотип -->
+        <img src="https://i.imgur.com/JzW0kTr.png" alt="Логотип" />
+        <h1>Блокчейн разработка любой сложности под ключ.</h1>
+        <p>℘Smart contracts;</p>
+        <p>℘Telegram Webapp(MiniApp);</p>
+        <p>℘Nft, blockchain, wallet;</p>
+        <p>℘DEX, CEX, DeFi, GameFi.</p>
+    </header>
+
+    <nav class="fade-in-delay">
+        <a href="#about">О нас</a>
+        <a href="#works">Работы</a>
+        <a href="#services">Услуги</a>
+        <a href="#contact">Контакты</a>
+        <!-- Ссылка на игру -->
+    <a href="game.html">Мини-игра</a>
+    <a href="moon_game.html">Игра с Луной</a>
+    </nav>
+
+    <section class="fade-in-delay" id="about">
+        <h2>О нас</h2>
+        <p>Мы команда специалистов в сфере Криптовалюты & разработки Web3.</p>
+        <p>Опытная, сплоченная команда, которая поможет Вам реализовать свой проект! С Вас идея - с нас готовый, качественный продукт.</p>
+        <p>Опыт в разработке и в самой "крипте" уже более пяти лет.</p>
+        <p>За это время, мы успешно реализовали:</p>
+        <ul>
+            <li>5 NFT проектов;</li>
+            <li>Поучаствовали в разработке p2e game;</li>
+            <li>Сумели обучить наших клиентов, а также, открыть свои курсы по различным направлениям в сфере Crypto;</li>
+            <li>Выполнили более 100 успешных заказов наших клиентов!</li>
+        </ul>
+
+        <p>Что мы используем в разработке:</p>
+        <ul>
+            <li>Solidity, Python, JS, FunC, Rust</li>
+            <li>Html, css, JS</li>
+            <li>Node.js, Angular</li>
+            <li>React</li>
+        </ul>
+
+        <p>Будем рады с вами поработать!</p>
+
+    </section>
+    <section class="fade-in-delay" id="works">
+        <h2>Наши Работы</h2>
+        <p>Мы гордимся нашими достижениями в области разработки Web3 и криптовалютных технологий. </p>
+        <ul>
+            <li>C нашими работами вы можете ознакомиться лично у нашего менеджера. </li>
+
+    </section>
+
+    <section class="fade-in-delay" id="services">
+        <h2>Наши Услуги</h2>
+        <p>Мы предлагаем широкий спектр услуг в сфере Web3, криптовалют и блокчейн-технологий:</p>
+        <ul>
+            <li>Разработка смарт-контрактов на Solidity и других языках.</li>
+            <li>Разработка децентрализованных приложений (dApps).</li>
+            <li>Консалтинг в области криптовалют и блокчейна.</li>
+            <li>Проектирование и создание блокчейн-решений.</li>
+            <li>Создание личного Мемкоина.</li>
+            <li>Создание пула ликвидности и вывод токена на разные биржи.</li>
+            <li>Создание NFT проекта.</li>
+            <li>Обучение в сфере crypto.</li>
+            <li>Разработка софтов.</li>
+            <li>И прочее!</li>
+        </ul>
+    </section>
+
+    </section>
+    <section class="fade-in-delay" id="contact">
+    <h2>Контакты</h2>
+    <p>Здесь вы можете связаться с нами для дальнейшего сотрудничества!</p>
+    <ul>
+        <li>Telegram @marmew </li>
+        <li>Telegram bot @cryptofamsBot </li>
+
+    </section>
+
+    <footer>
+        <p>&copy; С наступающим новым годом!</p>
+    </footer>
+    <script>
+
+        // Открыть боковое окно техподдержки
+        function openSupportSidebar() {
+            document.getElementById('support-sidebar').style.display = 'block';
+        }
+
+        // Закрыть боковое окно техподдержки
+        function closeSupportSidebar() {
+            document.getElementById('support-sidebar').style.display = 'none';
+        }
+
+        // Обработчик отправки формы
+        document.getElementById('support-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Ваше сообщение отправлено!");
+            closeSupportSidebar(); // Закрытие окна после отправки
+        });
+    </script>
+
+    <!-- Сообщение для снеговика -->
+    <div class="message-box" id="message-box">
+        <p>Ваша скидка NEWYEAR2025! Отправьте кодовое слово менеджеру!</p>
+        <button onclick="closeMessageBox()">Закрыть</button>
+    </div>
+
+    <script>
+        // Функция для создания снежинок
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 5 + 5 + 's';
+            snowflake.style.fontSize = Math.random() * 10 + 20 + 'px';
+            document.body.appendChild(snowflake);
+            setTimeout(() => {
+                snowflake.remove();
+            }, 10000);
+        }
+
+        setInterval(createSnowflake, 200);
+
+        // Таймер для появления снеговика каждую минуту
+        setInterval(() => {
+            const snowman = document.createElement('div');
+            snowman.classList.add('snowman');
+            document.body.appendChild(snowman);
+
+            // При клике на снеговика показываем сообщение
+            snowman.addEventListener('click', () => {
+                document.getElementById('message-box').style.display = 'block';
+            });
+        }, 60 * 1000); // Каждые 1 минуту
+
+        // Закрытие сообщения
+        function closeMessageBox() {
+            document.getElementById('message-box').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
